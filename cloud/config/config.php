@@ -24,9 +24,9 @@ $CONFIG = array (
     'port' => 0,
     'timeout' => 0.0,
   ),
-  'instanceid' => 'ocadc83b19e7',
-  'passwordsalt' => 'AQZPdncG4FYhULMMqBwHUV1IwJNj/K',
-  'secret' => 'n8K6meykDujHSmPPnGGMCoxLFTOjF3M7vzYj7u8dKQjkkkYj',
+  'instanceid' => '',
+  'passwordsalt' => '',
+  'secret' => '',
   'trusted_domains' => 
   array (
     0 => 'cloud.berndklaus.at',
