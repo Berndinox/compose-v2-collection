@@ -1,0 +1,75 @@
+version: '2'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./prometheus_data:/prometheus
+    command:
+      - '-config.file=/etc/prometheus/prometheus.yml'
+      - '-storage.local.path=/prometheus'
+      - '-alertmanager.url=http://alertmanager:9093'
+      - '-storage.local.memory-chunks=100000'
+      - '-storage.local.retention=24h'
+    expose:
+      - 9090
+    links:
+      - cadvisor:cadvisor
+      - alertmanager:alertmanager
+      - node-exporter:node-exporter
+    depends_on:
+      - cadvisor
+      - node-exporter
+ 
+  node-exporter:
+    image: prom/node-exporter
+    expose:
+      - 9100
+      
+  alertmanager:
+    image: prom/alertmanager
+    expose:
+      - 9093
+    volumes: 
+      - ./alertmanager/:/etc/alertmanager/
+    command:
+      - '-config.file=/etc/alertmanager/config.yml'
+      - '-storage.path=/alertmanager'
+      
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    expose:
+      - 8080
+      
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    expose:
+      - 3000
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - VIRTUAL_HOST=perf.berndklaus.at
+      - LETSENCRYPT_HOST=perf.berndklaus.at
+      - LETSENCRYPT_EMAIL=admin@berndklaus.at
+    links:
+      - prometheus
+    networks:
+      - default
+      - proxy
+
+networks:
+  default:
+    driver: bridge
+  proxy:
+    external:
+      name: proxy

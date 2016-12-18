@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  mail:
+    image: tvial/docker-mailserver:latest
+    # build: .
+    hostname: mail
+    domainname: berndklaus.at
+    container_name: mail
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+    volumes:
+      - ./maildata/:/var/mail
+      - ./config/:/tmp/docker-mailserver/
+      - ../proxy/certs/mail.berndklaus.at.crt:/tmp/ssl/mail.berndklaus.at.crt:ro
+      - ../proxy/certs/mail.berndklaus.at.key:/tmp/ssl/mail.berndklaus.at.key:ro
+    environment:
+     #- LETSENCRYPT_HOST=mail.berndklaus.at
+     #- LETSENCRYPT_EMAIL=admin@berndklaus.at
+     #- VIRTUAL_HOST=mail.berndklaus.at
+     - SSL_TYPE=manual
+     - SSL_CERT_PATH=/tmp/ssl/mail.berndklaus.at.crt
+     - SSL_KEY_PATH=/tmp/ssl/mail.berndklaus.at.key
+    restart: always

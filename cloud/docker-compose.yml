@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+
+  nc-mysql:
+    #container_name: nc-mysql
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=${PASSWORD}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_USER=nextcloud
+    volumes:
+      - ./sql:/var/lib/mysql
+    restart: always
+
+  nextcloud:
+      #container_name: nextcloud
+      image: wonderfall/nextcloud:latest
+      expose:
+       - "8888/tcp"
+      networks:
+       - proxy
+       - default
+      environment:
+       - DB_NAME=nextcloud
+       - DB_PASSWORD=${PASSWORD}
+       - DB_USER=nextcloud
+       - DB_HOST=mysql
+       - DB_TYPE=mysql
+       - ADMIN_USER=bernd
+       - ADMIN_PASSWORD=${PASSWORD}
+       - TRUSTED_DOMAIN1=cloud.berndklaus.at
+       - EXTERNAL_DOMAIN=cloud.berndklaus.at
+       - VIRTUAL_HOST=cloud.berndklaus.at
+       - LETSENCRYPT_HOST=cloud.berndklaus.at
+       - LETSENCRYPT_EMAIL=admin@berndklaus.at
+       - OVH_PASSWORD=${OVH_PASSWORD}
+      volumes:
+       - ./config:/config
+       - ./data:/data
+       - ./apps:/apps2
+      restart: always
+      links:
+       - nc-mysql
+
+networks:
+  default:
+    driver: bridge
+  proxy:
+    external:
+      name: proxy
