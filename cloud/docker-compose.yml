@@ -36,6 +36,8 @@ services:
        - LETSENCRYPT_HOST=cloud.berndklaus.at
        - LETSENCRYPT_EMAIL=admin@berndklaus.at
        - OVH_PASSWORD=${OVH_PASSWORD}
+       - OVH_USER=${OVH_USER}
+       - OVH_TENANT=${OVH_TENANT}
       volumes:
        - ./config:/config
        - ./data:/data
