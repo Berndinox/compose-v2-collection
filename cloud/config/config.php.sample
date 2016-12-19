@@ -58,13 +58,13 @@ $CONFIG = array (
     'class' => 'OC\\Files\\ObjectStore\\Swift',
     'arguments' => 
     array (
-      'username' => 'zc99fbUqtumW',
+      'username' => '${OVH_USER}',
       'password' => '${OVH_PASSWORD}',
       'container' => 'nextcloud',
       'autocreate' => true,
       'region' => 'GRA1',
       'url' => 'https://auth.cloud.ovh.net/v2.0',
-      'tenantName' => '4057108283929314',
+      'tenantName' => '${OVH_TENANT}',
       'serviceName' => 'swift',
     ),
   ),
