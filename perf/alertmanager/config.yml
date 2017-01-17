@@ -6,9 +6,9 @@ route:
 receivers:
 - name: email-me
   email_configs:
-  - to: self@berndklaus.at
-    from: admin@berndklaus.at
+  - to: "${TOMAIL}"
+    from: "${FROMMAIL}"
     smarthost: mail.berndklaus.at:587
-    auth_username: "admin@berndklaus.at"
-    auth_identity: "admin@berndklaus.at"
+    auth_username: "${FROMMAIL}"
+    auth_identity: "${FROMMAIL}"
     auth_password: "${PASSWORD}"
