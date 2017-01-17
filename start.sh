@@ -28,6 +28,19 @@ fi
 #fi
 
 
+# IF Mail Alert uncomment this
+#
+#if [ -z "$TOMAIL" ]
+#then
+#    read -p  "Enter TOMAIL:" input5
+#    export TOMAIL=$input5
+#fi
+#if [ -z "$FROMMAIL" ]
+#then
+#    read -p  "Enter FROMMAIL:" input6
+#    export FROMMAIL=$input6
+#fi
+
 if [[ "$(docker network ls | grep proxy 2> /dev/null)" == "" ]]; then
   docker network create proxy -d bridge
 fi
