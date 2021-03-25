@@ -1,3 +1,7 @@
+### outdated
+### for testing only
+### no warranty
+---------------------------
 ### WebStack Docker Project
 
 All my personal Webservices converted to Docker Conatiners and made available with docker-compose.
